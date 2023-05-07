@@ -1,36 +1,39 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Пользователь</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-</head>
-<body>
-<h2 style="text-align: center; vertical-align: middle">Пользователь</h2>
-
-<table class="table table-dark">
-    <thead>
-    <tr style="text-align: center; vertical-align: middle">
-        <th>ID</th>
-        <th>Логин</th>
-        <th>Пароль</th>
-        <th>Email</th>
-        <th>Роли</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr style="text-align: center; vertical-align: middle">
-        <td th:text="${user.getId()}"></td>
-        <td th:text="${user.getUsername()}"></td>
-        <td th:text="${user.getPassword()}"></td>
-        <td th:text="${user.getEmail()}"></td>
-        <td th:text="${user.getRoles()}"></td>
-    </tr>
-    </tbody>
-</table>
-<div style="text-align: center; vertical-align: middle">
-    <a th:href="@{/logout}" class="btn btn-primary" role="button" aria-pressed="true" >Выход</a>
-</div>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Страница пользователя</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    </head>
+    <body>
+        <h2 style="text-align: center; vertical-align: middle">Страница пользователя</h2>
+        <table class="table table-dark">
+            <thead>
+                <tr style="text-align: center; vertical-align: middle">
+                    <th>ID</th>
+                    <th>Email</th>
+                    <th>Пароль</th>
+                    <th>Имя</th>
+                    <th>Фамилия</th>
+                    <th>Возраст</th>
+                    <th>Роли</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="text-align: center; vertical-align: middle">
+                    <td th:text="${user.getId()}"></td>
+                    <td th:text="${user.getUsername()}"></td>
+                    <td th:text="${user.getPassword()}"></td>
+                    <td th:text="${user.getFirstName()}"></td>
+                    <td th:text="${user.getLastName()}"></td>
+                    <td th:text="${user.getAge()}"></td>
+                    <td th:text="${user.getRoles()}"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="text-align: center; vertical-align: middle">
+            <a th:href="@{/logout}" class="btn btn-primary" role="button" aria-pressed="true" >Выход</a>
+        </div>
+    </body>
 </html>

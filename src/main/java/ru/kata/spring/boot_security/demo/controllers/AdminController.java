@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.services.RoleService;
 import ru.kata.spring.boot_security.demo.services.UserService;
-import ru.kata.spring.boot_security.demo.util.UserValidator;
-
 import javax.validation.Valid;
 
 @Controller
@@ -17,11 +15,10 @@ import javax.validation.Valid;
 public class AdminController {
 
     private final UserService userService;
-
     private final RoleService roleService;
 
     @Autowired
-    public AdminController(UserService userService, RoleService roleService, UserValidator userValidator) {
+    public AdminController(UserService userService, RoleService roleService) {
         this.userService = userService;
         this.roleService = roleService;
     }
@@ -42,11 +39,15 @@ public class AdminController {
     @PostMapping
     public String saveUser(@ModelAttribute("user") @Valid User user,
                            BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors() || UserValidator.validate(user, model, userService)) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("allRoles", roleService.findAllRoles());
             return "new";
         }
-        userService.saveUser(user);
+        if (!userService.saveUser(user)){
+            model.addAttribute("userExistsError", true);
+            model.addAttribute("allRoles", roleService.findAllRoles());
+            return "new";
+        }
         return "redirect:/admin";
     }
 
@@ -64,11 +65,15 @@ public class AdminController {
     @PatchMapping("/{id}")
     public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult,
                              @PathVariable("id") Long id, Model model) {
-        if (bindingResult.hasErrors() || UserValidator.validate(user, model, userService)) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("allRoles", roleService.findAllRoles());
             return "edit";
         }
-        userService.updateUser(id, user);
+        if (!userService.updateUser(id, user)) {
+            model.addAttribute("userExistsError", true);
+            model.addAttribute("allRoles", roleService.findAllRoles());
+            return "edit";
+        }
         return "redirect:/admin";
     }
 

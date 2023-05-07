@@ -27,35 +27,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserById(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        return user.orElse(null);
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override
-    public User findUserByUsername(String username) {
-        return userRepository.findUserByUsername(username);
-    }
-
-    @Override
-    public User findUserByEmail(String email) {
-        return userRepository.findUserByEmail(email);
+    public User findUserByUsername(String email) {
+        return userRepository.findUserByUsername(email).orElse(null);
     }
 
     @Override
     @Transactional
-    public void saveUser(User user) {
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    public boolean saveUser(User user) {
+        if (userRepository.findUserByUsername(user.getUsername()).isPresent()) {
+            return false;
+        }
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        return true;
     }
 
     @Override
     @Transactional
-    public void updateUser(Long id, User user) {
-        user.setId(id);
-        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    public boolean updateUser(Long id, User user) {
+        User userFromDatabase = userRepository.findUserByUsername(user.getUsername()).orElse(null);
+        if (userFromDatabase != null && userFromDatabase.getId() != id) {
+            return false;
+        }
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+        return true;
     }
 
     @Override
