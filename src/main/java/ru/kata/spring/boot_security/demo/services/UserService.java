@@ -8,13 +8,11 @@ public interface UserService {
 
     List<User> findAllUsers();
 
-    User findUserById(Long id);
-
     User findUserByUsername(String email);
 
-    boolean saveUser(User user);
+    void saveUser(User user);
 
-    boolean updateUser(Long id, User user);
+    void updateUser(Long id, User user);
 
     void deleteUser(Long id);
 }

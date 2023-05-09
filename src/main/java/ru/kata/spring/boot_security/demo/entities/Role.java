@@ -1,6 +1,6 @@
 package ru.kata.spring.boot_security.demo.entities;
 
-import lombok.Data;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import javax.persistence.*;
 
@@ -22,6 +22,6 @@ public class Role implements GrantedAuthority {
 
     @Override
     public String toString() {
-        return name;
+        return name.substring(5);
     }
 }

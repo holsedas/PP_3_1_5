@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.entities.User;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -26,38 +25,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
-    }
-
-    @Override
     public User findUserByUsername(String email) {
         return userRepository.findUserByUsername(email).orElse(null);
     }
 
     @Override
     @Transactional
-    public boolean saveUser(User user) {
-        if (userRepository.findUserByUsername(user.getUsername()).isPresent()) {
-            return false;
-        }
+    public void saveUser(User user) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        return true;
     }
 
     @Override
     @Transactional
-    public boolean updateUser(Long id, User user) {
-        User userFromDatabase = userRepository.findUserByUsername(user.getUsername()).orElse(null);
-        if (userFromDatabase != null && userFromDatabase.getId() != id) {
-            return false;
-        }
+    public void updateUser(Long id, User user) {
         PasswordEncoder passwordEncoder = new BCryptPasswordEncoder(12);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        return true;
     }
 
     @Override
