@@ -6,6 +6,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "roles")
 public class Role implements GrantedAuthority {
 
@@ -15,13 +16,12 @@ public class Role implements GrantedAuthority {
 
     private String name;
 
-    @Override
-    public String getAuthority() {
-        return name;
+    public Role(String name) {
+        this.name = name;
     }
 
     @Override
-    public String toString() {
-        return name.substring(5);
+    public String getAuthority() {
+        return name;
     }
 }

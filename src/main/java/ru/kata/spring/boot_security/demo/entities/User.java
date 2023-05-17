@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.entities;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
@@ -9,6 +10,7 @@ import java.util.stream.Collectors;
 
 @Entity
 @Data
+@NoArgsConstructor
 @Table(name = "users")
 public class User implements UserDetails {
 
@@ -33,6 +35,15 @@ public class User implements UserDetails {
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles = new HashSet<>();
+
+    public User(String email, String password, String firstName, String lastName, int age, Set<Role> roles) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.roles = roles;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
