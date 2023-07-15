@@ -12,6 +12,7 @@ import java.security.Principal;
 @RestController
 @RequestMapping("/rest/user")
 public class UserRestController {
+
     private final UserService userService;
 
     @Autowired

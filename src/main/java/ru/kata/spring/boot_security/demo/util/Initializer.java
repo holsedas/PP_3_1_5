@@ -12,7 +12,9 @@ import java.util.Set;
 
 @Component
 public class Initializer {
+
     private final UserService userService;
+
     private final RoleService roleService;
 
     @Autowired
